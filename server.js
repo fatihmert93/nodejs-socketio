@@ -19,6 +19,21 @@ io.on('connection', (socket) => {
         console.log("Message Received: " + message);
         io.emit('message', {type:'new-message', text: message});    
     });
+
+    socket.on('broadcastPush', (message) => {
+        console.log("Message Received: " + message);
+        io.emit('broadcastPush', {type:'new-message', text: message});    
+    });
+
+    socket.on('toMessage', function(id, messageObject){
+        socket.broadcast.to(id).emit('toMessage', messageObject);
+    });
+
+    socket.on('toPush', function(id, messageObject){
+        socket.broadcast.to(id).emit('toPush', messageObject);
+    });
+
+
 });
 
 // Initialize our websocket server on port 5000
